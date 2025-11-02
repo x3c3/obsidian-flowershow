@@ -4,7 +4,8 @@
     "version": "3.0.4",
     "minAppVersion": "0.15.0",
     "description": "Publish with Flowershow directly from your Obsidian vault.",
-    "author": "Ola Rubaj",
+    "author": "Flowershow",
     "authorUrl": "https://flowershow.app/",
     "isDesktopOnly": false
 }
+
