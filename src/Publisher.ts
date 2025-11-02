@@ -18,25 +18,29 @@ export type PathToHashDict = { [key: string]: string };
 export default class Publisher {
     private app: App;
     private settings: IFlowershowSettings;
-    private publishStatusBar: PublishStatusBar; 
-    private octokit: Octokit;
+    private publishStatusBar: PublishStatusBar;
 
     constructor(app: App, settings: IFlowershowSettings, publishStatusBar: PublishStatusBar) {
         this.app = app;
         this.settings = settings;
         this.publishStatusBar = publishStatusBar;
-        this.octokit = new Octokit({
-          auth: this.settings.githubToken,
-          request: {
-            // Force fresh network fetches
-            fetch: (url: any, options: any) =>
-              fetch(url, { ...options, cache: "no-store" }),
-            // and disable ETag conditional requests
-            // (Octokit won’t add If-None-Match if you pass an empty one)
-            // You can also set this per-call instead of globally.
-            // headers: { 'If-None-Match': '' } // optional global default
-          }
-         });
+    }
+
+    /** Get or create Octokit instance with current settings */
+    private get octokit(): Octokit {
+      // Always recreate to ensure we use the latest token
+      return new Octokit({
+        auth: this.settings.githubToken,
+        request: {
+          // Force fresh network fetches
+          fetch: (url: any, options: any) =>
+            fetch(url, { ...options, cache: "no-store" }),
+          // and disable ETag conditional requests
+          // (Octokit won't add If-None-Match if you pass an empty one)
+          // You can also set this per-call instead of globally.
+          // headers: { 'If-None-Match': '' } // optional global default
+        }
+        });
     }
 
   /** ---------- Public API ---------- */
@@ -467,7 +471,6 @@ export default class Publisher {
           throw {}
       }
 
-      const octokit = new Octokit({ auth: this.settings.githubToken });
       const payload = {
           owner: this.settings.githubUserName,
           repo: this.settings.githubRepo,
@@ -476,7 +479,7 @@ export default class Publisher {
           sha: ''
       };
 
-      const response = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+      const response = await this.octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
           owner: this.settings.githubUserName,
           repo: this.settings.githubRepo,
           path
@@ -489,7 +492,7 @@ export default class Publisher {
           payload.sha = fileData.sha;
       }
 
-      await octokit.request('DELETE /repos/{owner}/{repo}/contents/{path}', payload);
+      await this.octokit.request('DELETE /repos/{owner}/{repo}/contents/{path}', payload);
   }
 
   /** Get dictionary of path->hash of all the files in the repo */

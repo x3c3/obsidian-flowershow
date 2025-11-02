@@ -45,7 +45,6 @@ export default class SettingView {
   private async saveSiteSettingsAndUpdateEnv(metadataCache: MetadataCache, settings: IFlowershowSettings, saveSettings: () => Promise<void>) {
       let updateFailed = false;
       try {
-          // Removed SiteManager usage as it's not imported
           await saveSettings();
       } catch {
           new Notice("Failed to update settings. Make sure you have an internet connection.")

@@ -196,14 +196,12 @@ class FlowershowSettingTab extends PluginSettingTab {
     containerEl.empty()
 
 		const settingView = new SettingView(
-      containerEl,
-      this.plugin.publisher,
-      this.plugin.settings,
-      async () => {
-        await this.plugin.saveData(this.plugin.settings)
-        // rebuild publisher to pick up new settings
-        this.plugin.publisher = new Publisher(this.app, this.plugin.settings, this.plugin.statusBar);
-      });
+		    containerEl,
+		    this.plugin.publisher,
+		    this.plugin.settings,
+		    async () => {
+		      await this.plugin.saveData(this.plugin.settings)
+		    });
 		settingView.initialize();
 	}
 }

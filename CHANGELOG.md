@@ -1,5 +1,11 @@
 # flowershow
 
+## 3.0.5
+
+### Patch Changes
+
+- Fix flaky auth test button.
+
 ## 3.0.4
 
 ### Patch Changes
