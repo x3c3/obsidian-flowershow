@@ -1,5 +1,11 @@
 # flowershow
 
+## 3.0.6
+
+### Patch Changes
+
+- Make "unchanged" section folded by default and change the color of checkboxes.
+
 ## 3.0.5
 
 ### Patch Changes
