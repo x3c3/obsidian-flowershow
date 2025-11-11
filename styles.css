@@ -19,3 +19,7 @@ If your plugin does not need CSS, delete this file.
   padding: 0px;
   z-index: 1;
 }
+
+.MuiCheckbox-root .MuiSvgIcon-root {
+  color: var(--text-faint)
+}
