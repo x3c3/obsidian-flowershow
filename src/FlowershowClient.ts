@@ -1,4 +1,5 @@
 import { type RequestUrlResponse, requestUrl } from "obsidian";
+import { FlowershowError } from "./utils";
 
 /**
  * FlowershowClient - API client for direct publishing to Flowershow
@@ -121,7 +122,7 @@ export class FlowershowClient {
     ) {
       let error: { message?: string } = {};
       try { error = response.json; } catch (_) {}
-      throw new Error(
+      throw new FlowershowError(
         error.message || `${errorContext}: ${response.status}`,
       );
     }
@@ -225,7 +226,7 @@ export class FlowershowClient {
     });
 
     if (response.status >= 300) {
-      throw new Error(`Failed to upload file: ${response.status}`);
+      throw new FlowershowError(`Failed to upload file: ${response.status}`);
     }
 
     return true;
